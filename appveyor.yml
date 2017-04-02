@@ -32,7 +32,7 @@ cache:
   - C:\msys64\var\cache\pacman    -> build\appveyor\MSYS-appveyor-install.bat
 
 configuration:
-# - Debug
+  - Debug
   - Release
 
 platform:
@@ -48,27 +48,17 @@ environment:
      QT_VERSION: 5.8
      ZLIB_VERSION: 1.2.11
 
-   - PROFILE: MINGW
-
-#   - PROFILE: MSVC2010
-#     BOOST_VERSION: 1.59.0
-#     LIBEVENT_VERSION: 2.0.22
-#     PYTHON_VERSION: 3.3
-#     ZLIB_VERSION: 1.2.8
-
-#   - PROFILE: MSYS
-
-matrix:
-  allow_failures:
-    # MSVC2010 appears to be 32-bit only in appveyor
-    - platform: x64
-      PROFILE: MSVC2010
-
-    # Only have 64-bit MinGW working so far (inside MSYS2)
-    - platform: x86
-      PROFILE: MINGW
-    - platform: x86
-      PROFILE: MSYS
+#matrix:
+#  allow_failures:
+#    # MSVC2010 appears to be 32-bit only in appveyor
+#    - platform: x64
+#      PROFILE: MSVC2010
+#
+#    # Only have 64-bit MinGW working so far (inside MSYS2)
+#    - platform: x86
+#      PROFILE: MINGW
+#    - platform: x86
+#      PROFILE: MSYS
 
 install:
   - cd %APPVEYOR_BUILD_FOLDER%
