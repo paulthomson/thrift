@@ -26,62 +26,54 @@ shallow_clone: true
 os:
   - Visual Studio 2015
 
-cache:
-  - C:\projects\thrift\buildcache -> build\appveyor\MSVC-appveyor-install.bat
-  - C:\ProgramData\chocolatey\lib -> build\appveyor\MSVC-appveyor-install.bat
-  - C:\msys64\var\cache\pacman    -> build\appveyor\MSYS-appveyor-install.bat
+#cache:
+#  - C:\projects\thrift\buildcache -> build\appveyor\MSVC-appveyor-install.bat
+#  - C:\ProgramData\chocolatey\lib -> build\appveyor\MSVC-appveyor-install.bat
+#  - C:\msys64\var\cache\pacman    -> build\appveyor\MSYS-appveyor-install.bat
 
 configuration:
-# - Debug
+#  - Debug
   - Release
 
-platform:
+#platform:
 # - x86
-  - x64
+#  - x64
 
 environment:
   matrix:
    - PROFILE: MSVC2015
-     BOOST_VERSION: 1.63.0
-     LIBEVENT_VERSION: 2.0.22
-     PYTHON_VERSION: 3.6
-     QT_VERSION: 5.8
-     ZLIB_VERSION: 1.2.11
-
-   - PROFILE: MINGW
-
-#   - PROFILE: MSVC2010
-#     BOOST_VERSION: 1.59.0
+     platform: x64
+     CMAKE_GENERATOR: "Visual Studio 14 2015 Win64"
+     CMAKE_OPTIONS: "-DBUILD_COMPILER=ON -DBUILD_LIBRARIES=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF"
+#     BOOST_VERSION: 1.63.0
 #     LIBEVENT_VERSION: 2.0.22
-#     PYTHON_VERSION: 3.3
-#     ZLIB_VERSION: 1.2.8
+#     PYTHON_VERSION: 3.6
+#     QT_VERSION: 5.8
+#     ZLIB_VERSION: 1.2.11
 
-#   - PROFILE: MSYS
-
-matrix:
-  allow_failures:
-    # MSVC2010 appears to be 32-bit only in appveyor
-    - platform: x64
-      PROFILE: MSVC2010
-
-    # Only have 64-bit MinGW working so far (inside MSYS2)
-    - platform: x86
-      PROFILE: MINGW
-    - platform: x86
-      PROFILE: MSYS
+#matrix:
+#  allow_failures:
+#    # MSVC2010 appears to be 32-bit only in appveyor
+#    - platform: x64
+#      PROFILE: MSVC2010
+#
+#    # Only have 64-bit MinGW working so far (inside MSYS2)
+#    - platform: x86
+#      PROFILE: MINGW
+#    - platform: x86
+#      PROFILE: MSYS
 
 install:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - call build\appveyor\%PROFILE:~0,4%-appveyor-install.bat
+  - call build/paul/appveyor/1-install.bat
   - refreshenv
 
 build_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - call build\appveyor\%PROFILE:~0,4%-appveyor-build.bat
+  - call build/paul/appveyor/2-build.bat
+  - tree . /F /A
 
-test_script:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - call build\appveyor\%PROFILE:~0,4%-appveyor-test.bat
+#test_script:
+#  - cd %APPVEYOR_BUILD_FOLDER%
+#  - call build\appveyor\%PROFILE:~0,4%-appveyor-test.bat
 
 # artifact capture disabled as it might increase service cost for little gain:
 #
